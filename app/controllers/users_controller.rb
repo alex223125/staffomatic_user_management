@@ -3,7 +3,9 @@ class UsersController < ApplicationController
   before_action :set_target_user, only: %i[ update destroy ]
 
   def index
-    render jsonapi: User.all
+    service = Services::Users::Index.new(params[:filter])
+    service.call
+    render jsonapi: service.users
   end
 
   def update
