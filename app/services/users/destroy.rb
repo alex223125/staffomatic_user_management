@@ -19,7 +19,7 @@ module Services
         else
           ActiveRecord::Base.transaction do
             @target_user.destroy!
-            Operation.create!(action: ACTION, user: current_user)
+            Operation.create!(action: ACTION, user: current_user.email)
           end
         end
       rescue UserSelfdestructionError => e
