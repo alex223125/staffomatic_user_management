@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :set_target_user, only: %i[ update ]
+  before_action :set_target_user, only: %i[ update destroy ]
 
   def index
     render jsonapi: User.all
@@ -15,6 +15,17 @@ class UsersController < ApplicationController
       render jsonapi: service.target_user
     else
       render jsonapi_errors: { detail: service.errors.message }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    service = Services::Users::Destroy.new(current_user, @target_user)
+    service.call
+
+    if service.errors.blank?
+      render json: {}, head: :no_content
+    else
+      render jsonapi_errors: { detail: service.errors.message }, head: :unprocessable_entity
     end
   end
 

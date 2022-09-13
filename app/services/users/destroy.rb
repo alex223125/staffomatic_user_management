@@ -1,24 +1,23 @@
 module Services
   module Users
-    class Update
+    class Destroy
 
       include Authenticatable
 
       attr_reader :errors
 
-      def initialize(current_user, target_user, params)
+      def initialize(current_user, target_user)
         @current_user = current_user
         @target_user = target_user
-        @params = params
       end
 
       def call
         if is_current_user?
-          raise UserUpdatesHimselfError
+          raise UserSelfdestructionError
         else
-          @target_user.update!(@params)
+          @target_user.destroy!
         end
-      rescue UserUpdatesHimselfError => e
+      rescue UserSelfdestructionError => e
         Rails.logger.error(e.message)
         @errors = e
       rescue ActiveRecord::ActiveRecordError => e
