@@ -4,6 +4,8 @@ module Services
 
       include Authenticatable
 
+      ACTION = "Update existing user"
+
       attr_reader :errors
 
       def initialize(current_user, target_user, params)
@@ -16,7 +18,10 @@ module Services
         if is_current_user?
           raise UserUpdatesHimselfError
         else
-          @target_user.update!(@params)
+          ActiveRecord::Base.transaction do
+            @target_user.update!(@params)
+            Operation.create!(action: ACTION, user: current_user)
+          end
         end
       rescue UserUpdatesHimselfError => e
         Rails.logger.error(e.message)

@@ -4,6 +4,8 @@ module Services
 
       include Authenticatable
 
+      ACTION = "Destroy user"
+
       attr_reader :errors
 
       def initialize(current_user, target_user)
@@ -15,7 +17,10 @@ module Services
         if is_current_user?
           raise UserSelfdestructionError
         else
-          @target_user.destroy!
+          ActiveRecord::Base.transaction do
+            @target_user.destroy!
+            Operation.create!(action: ACTION, user: current_user)
+          end
         end
       rescue UserSelfdestructionError => e
         Rails.logger.error(e.message)
