@@ -9,13 +9,27 @@ RSpec.describe 'Destroy' do
       let(:current_user) { create(:user) }
       let(:target_user) { create(:user, email: "test_user_two@test.com") }
 
-      it 'should destroy target user' do
+      before do
         service = Services::Users::Destroy.new(current_user, target_user)
         service.call
+      end
 
+      it 'should destroy target user' do
         users = User.all
         expected_result = 1
         expect(users.count).to eql(expected_result)
+      end
+
+      it 'should create one Operation log record' do
+        operations = Operation.all
+
+        expected_result = 1
+        expected_action = "Destroy user"
+        expected_user = current_user.email
+
+        expect(operations.count).to eql(expected_result)
+        expect(operations.first.action).to eql(expected_action)
+        expect(operations.first.user).to eql(expected_user)
       end
     end
 
