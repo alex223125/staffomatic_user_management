@@ -4,7 +4,7 @@ RSpec.describe 'Destroy' do
 
   describe '#call' do
 
-    context 'when we have correct data' do
+    context 'when we user tries to destroy another user' do
 
       let(:current_user) { create(:user) }
       let(:target_user) { create(:user, email: "test_user_two@test.com") }
