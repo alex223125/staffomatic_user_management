@@ -30,6 +30,7 @@ group :development, :test do
   gem 'pry', '~> 0.13.1'
   gem 'rspec-rails', '~> 4.0.2'
   gem 'factory_bot_rails', '~> 6.1.0'
+  gem 'jsonapi-rspec', '~> 0.0.9'
 end
 
 group :development do
