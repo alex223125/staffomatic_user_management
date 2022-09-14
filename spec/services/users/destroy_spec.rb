@@ -47,7 +47,7 @@ RSpec.describe 'Destroy' do
         target_user = current_user
         service = Services::Users::Destroy.new(current_user, target_user)
 
-        message = service.message
+        message = service.errors
         expected_message = 'User can not destroy himself'
         expect(message).to eql(expected_message)
       end
