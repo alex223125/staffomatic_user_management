@@ -23,6 +23,18 @@ RSpec.describe 'Update' do
           expected_result = true
           expect(target_user.is_archived).to eql(expected_result)
         end
+
+        it 'should create one Operation log record' do
+          operations = Operation.all
+
+          expected_result = 1
+          expected_action = "Update existing user"
+          expected_user = current_user.email
+
+          expect(operations.count).to eql(expected_result)
+          expect(operations.first.action).to eql(expected_action)
+          expect(operations.first.user).to eql(expected_user)
+        end
       end
 
       context 'when we change status to false' do
@@ -34,10 +46,7 @@ RSpec.describe 'Update' do
           expect(target_user.is_archived).to eql(expected_result)
         end
       end
-
-
     end
-
 
     context 'when user tries to update himself' do
 
