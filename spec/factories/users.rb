@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :user do
-    email { "test_email@test.com" }
+    sequence(:email) { |n| "test_email#{n}@test.com" }
     is_archived  { true }
     password { "12345" }
   end
