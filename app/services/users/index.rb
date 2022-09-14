@@ -16,7 +16,7 @@ module Services
       private
 
       def filter_by_archived
-        @users = @users.where(is_archived: @filter_params[:is_archived])
+        @users = @users.where(is_archived: @filter_params["is_archived"])
       end
     end
   end
