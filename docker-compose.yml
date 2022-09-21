@@ -11,6 +11,8 @@ services:
     volumes:
       - db_data:/var/lib/mysql
   api:
+    tty: true
+    stdin_open: true
     build: .
     command: bash -c "bundle install; bundle exec rails s -p 3189 -b 0.0.0.0"
     volumes:

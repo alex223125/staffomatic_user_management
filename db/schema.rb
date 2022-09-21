@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_04_084842) do
+ActiveRecord::Schema.define(version: 2022_09_13_224202) do
+
+  create_table "operations", charset: "utf8mb4", force: :cascade do |t|
+    t.string "action"
+    t.string "user"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_archived"
   end
 
 end

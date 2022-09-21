@@ -21,12 +21,16 @@ gem 'jwt'
 
 # seriaization & json_api logic
 gem 'jsonapi.rb'
+gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
 
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry', '~> 0.13.1'
   gem 'rspec-rails', '~> 4.0.2'
+  gem 'factory_bot_rails', '~> 6.1.0'
+  gem 'jsonapi-rspec', '~> 0.0.9'
 end
 
 group :development do
