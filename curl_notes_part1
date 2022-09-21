@@ -1,0 +1,101 @@
+PART 1 
+
+SOLUTION 1 
+User can archive ir dearchive other users 
+
+curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X PUT -d '{"user":{"email":"test@test.com","is_archived":"true"}}' \
+	http://localhost:3189/users/1
+	
+	
+RESULT:
+
+earth@earth:~/Downloads/test_tasks/staffomatic_user_management$ curl --header \
+> "Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+> --header "Content-Type: application/json" \
+> -X PUT -d '{"user":{"email":"test@test.com","is_archived":"true"}}' \
+> http://localhost:3189/users/1
+{"email":"test@test.com","is_archived":true,"id":1,"password_digest":"$2a$12$FB/RKx0T4M60qfqLJ7c4dOsZcdDNVtvSnWHQjKSKrAcy1NOi7S8fi","created_at":"2022-09-12T16:56:16.038Z","updated_at":"2022-09-12T18:48:38.503Z"}earth@earth:~/Downloads/test_tasks/staffomatic_user_management$ 
+
+
+create more users to update:
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "test_users111@test.com", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+111111111111111111111111111111111111111111111111111111111111111111111
+
+SOLUTION 2 
+
+1 create user 
+
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "test_users@test.com", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+2 delete user 
+
+curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X DELETE http://localhost:3189/users/5
+	
+	
+
+
+
+11111111111111111111111111111111111111111111111111111111111111111111111111
+
+
+SOLuTION 3 
+
+1 create user 
+
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "test_users@test.com", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+2 delete user 
+
+curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X DELETE http://localhost:3189/users/2
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+SOLUTION 4 
+
+for is archived true 
+
+
+	curl -X GET \
+	  -H "Content-type: application/json" \
+	  -H "Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	  -d '{"filter": {"is_archived": "true"}}' \
+	  "http://localhost:3189/users"
+	  
+  
+for its arcive false 
+
+
+	curl -X GET \
+	  -H "Content-type: application/json" \
+	  -H "Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	  -d '{"filter": {"is_archived": "true"}}' \
+	  "http://localhost:3189/users"
+	  
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -1,0 +1,282 @@
+Scenario 1. Use can change status archived - not archived using users#update endpoint
+
+
+1. sign up
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+
+
+2. authenticate and get BR tocket
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/authentications --data \
+          '{"authentication": {"email": "admin@easypep.de", "password": "welcome"}}'
+
+
+Downloads/new_tesk_task_folder/staffomatic_user_management/staffomatic_user_management$ curl --request POST --header "Content-Type: application/json" \
+>           http://localhost:3189/authentications --data \
+>           '{"authentication": {"email": "admin@easypep.de", "password": "welcome"}}'
+{"user_id":1,"user_email":"admin@easypep.de","token":"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE"}
+
+
+
+
+
+
+3. create few more people
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin2222@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin3333@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin4444@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+
+4.test if user can update state of himself
+
+
+curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X PUT -d '{"user":{"email":"test@test.com","is_archived":"true"}}' \
+	http://localhost:3189/users/1
+
+
+5. test if user can update somebody else
+
+
+curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X PUT -d '{"user":{"email":"test@test.com","is_archived":"false"}}' \
+	http://localhost:3189/users/2
+
+
+
+
+
+Scenario 2. Use can delete other users using users#destroy endpoint
+
+
+1.Create few users
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin5@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin6@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin7@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+
+2.Delete one of the users
+
+
+curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X DELETE http://localhost:3189/users/5
+
+
+
+
+3.User tries to delete himself
+
+curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X DELETE http://localhost:3189/users/1
+
+
+
+
+3. Module Authenticatabale check
+
+delete user
+
+curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X DELETE http://localhost:3189/users/7
+
+
+change status of another user
+
+create one user
+
+	curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin8@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+update his is_archived status
+
+	curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X PUT -d '{"user":{"email":"test8@test.com","is_archived":"true"}}' \
+	http://localhost:3189/users/8
+
+
+
+4. index endpoint
+
+
+create 4 users with is_archived true
+
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin10@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin100@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin11@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+  curl --request POST --header "Content-Type: application/json" \
+  http://localhost:3189/signup --data \
+  '{"data": {"attributes": {"email": "admin12@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+[4] pry(#<SignupsController>)> a.each do |b|
+[4] pry(#<SignupsController>)*   b.is_archived = true
+[4] pry(#<SignupsController>)*   b.save
+[4] pry(#<SignupsController>)* end
+
+
+create 3 users with is_archived false
+
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin13@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin14@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin15@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+index curl
+
+for is_archvied:true records:
+
+
+	curl -X GET \
+	  -H "Content-type: application/json" \
+	  -H "Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	  -d '{"filter": {"is_archived": "true"}}' \
+	  "http://localhost:3189/users"
+
+
+for is_archived:false recrods
+
+	curl -X GET \
+	  -H "Content-type: application/json" \
+	  -H "Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	  -d '{"filter": {"is_archived": "false"}}' \
+	  "http://localhost:3189/users"
+
+
+
+5. log operation in update and destroy servcies
+
+
+checking destroy endpoint
+
+
+create new user
+
+
+curl --request POST --header "Content-Type: application/json" \
+          http://localhost:3189/signup --data \
+          '{"data": {"attributes": {"email": "admin16@easypep.de", "password": "welcome", "password_confirmation": "welcome"}}}'
+
+
+destroy user
+
+
+curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X DELETE http://localhost:3189/users/16
+
+
+[1] pry(#<Services::Users::Destroy>)>
+
+  TRANSACTION (0.2ms)  BEGIN
+  ↳ app/services/users/destroy.rb:23:in `block in call'
+  User Destroy (0.3ms)  DELETE FROM `users` WHERE `users`.`id` = 16
+  ↳ app/services/users/destroy.rb:23:in `block in call'
+  Operation Create (0.4ms)  INSERT INTO `operations` (`action`, `user`, `created_at`, `updated_at`) VALUES ('Destroy user', '#<User:0x00007f0b75cbd8b0>', '2022-09-13 23:05:14.407464', '2022-09-13 23:05:14.407464')
+  ↳ app/services/users/destroy.rb:24:in `block in call'
+  TRANSACTION (19.2ms)  COMMIT
+  ↳ app/services/users/destroy.rb:21:in `call'
+Completed 200 OK in 7092ms (Views: 0.2ms | ActiveRecord: 22.3ms | Allocations: 28770)
+
+
+
+checking update endpoint
+
+
+change status to is_archive:false for one user
+
+	curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X PUT -d '{"user":{"email":"test15@test.com","is_archived":"false"}}' \
+	http://localhost:3189/users/15
+
+
+  TRANSACTION (0.6ms)  BEGIN
+  ↳ app/services/users/update.rb:22:in `block in call'
+  User Exists? (0.9ms)  SELECT 1 AS one FROM `users` WHERE `users`.`email` = 'test15@test.com' AND `users`.`id` != 15 LIMIT 1
+  ↳ app/services/users/update.rb:22:in `block in call'
+  User Update (0.8ms)  UPDATE `users` SET `users`.`updated_at` = '2022-09-13 23:08:05.718687', `users`.`is_archived` = FALSE WHERE `users`.`id` = 15
+  ↳ app/services/users/update.rb:22:in `block in call'
+  Operation Create (0.4ms)  INSERT INTO `operations` (`action`, `user`, `created_at`, `updated_at`) VALUES ('Update existing user', '#<User:0x00007f0b71c598a0>', '2022-09-13 23:08:05.748438', '2022-09-13 23:08:05.748438')
+  ↳ app/services/users/update.rb:23:in `block in call'
+  TRANSACTION (43.7ms)  COMMIT
+
+
+
+
+6. send email testing
+
+
+change status to is_archive:false for one user
+
+	curl --header \
+	"Authentication: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE" \
+	--header "Content-Type: application/json" \
+	-X PUT -d '{"user":{"email":"test15@test.com","is_archived":"false"}}' \
+	http://localhost:3189/users/15
+
+

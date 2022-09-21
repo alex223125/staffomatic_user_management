@@ -1,3 +1,17 @@
+####    Developed features:
+    an authenticated user, should be able able to archive, unarchive and delete an existing user
+    an authenticated user, should not be able to archive/unarchive/delete himself
+    the api should return the users which are archived/unarchived based on a filter parameter
+    we do want to keep track when these operations happened and which user did it
+    after archive/unarchive/delete of a user we want to inform that user via email, push notifications and/or webhooks
+    conform to the https://jsonapi.org/ specs
+
+#### To run application:
+    bunlde install
+    rails s 
+
+
+
 # Staffomatic User Management
 
 This is our Lekker Rails-API :rocket:
